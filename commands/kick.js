@@ -9,7 +9,7 @@ exports.run = (client, message, args) => {
 
   if (!message.guild.member(user).kickable) return message.reply('I cannot kick that member');
   message.guild.member(user).kick(reason).then(member => {
-                user.send(`You have been kicked from The Social Annex, ${reason}`)
+                user.send(`You have been kicked from YoMama, ${reason}`)
                 message.channel.sendMessage(`${user}, **Know Your Place**`).catch(console.error)
               });
 
