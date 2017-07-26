@@ -9,27 +9,23 @@ exports.run = (client, message, args) => {
   if (!muteRole) return message.reply('I cannot find a mute role').catch(console.error);
   if (reason.length < 1) return message.reply('You must supply a reason for the mute.').catch(console.error);
   if (message.mentions.users.size < 1) return message.reply('You must mention someone to mute them.').catch(console.error);
-  if(isNaN(duration)) message.reply('You must supply how many hours to mute.');
-
   const embed = new Discord.RichEmbed()
     .setColor(0xBBB5AE)
     .setTimestamp()
     .setAuthor(`${message.author.username}#${message.author.discriminator}`, `${message.author.avatarURL}`)
     .setDescription(`**User:** ${user} -- ${user.username}#${user.discriminator} (${user.id})\n**Action:** Mute\n**Reason:** ${reason}\n**Duration:** ${duration} hour(s)`)
-    .setFooter('Mute','https://images.discordapp.net/avatars/310929237882437633/7640635d9bd12b9aa9729e1266e44561.png?size=1024')
+    .setFooter('Mute','https://images.discordapp.net/avatars/318917523615514645/da4157938a6f91f0ca746a890d1eae16.png?size=1024')
   if (!message.guild.member(client.user).hasPermission('MANAGE_ROLES_OR_PERMISSIONS')) return message.reply('I do not have the correct permissions.').catch(console.error);
 
   if (message.guild.member(user).roles.has(muteRole.id)) {
-    message.guild.member(user).removeRole(muteRole).then(() => {
-      client.channels.get(modlog.id).sendEmbed(embed).catch(console.error);
-    });
+    message.reply('This user is already muted.')
   } else {
     message.guild.member(user).addRole(muteRole).then(() => {
       client.channels.get(modlog.id).sendEmbed(embed).then(member => {
-                    message.channel.sendMessage(`${user}, **Know Your Place**`).catch(console.error)
+                    message.channel.sendMessage(`${user} **has been muted**`).catch(console.error)
                   });
     });
-      user.send(`You have been muted in The Social Annex, ${reason}`)
+      user.send(`You have been muted in YoMamma by ${message.author.username}#${message.author.discriminator}, ${reason} for ${duration} hour(s). If you feel that this mute was in error or if you would like to appeal this mute, please join our appeal server, https://discord.gg/xCJJ4Gm`)
   }
 
 };
